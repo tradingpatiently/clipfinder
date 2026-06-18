@@ -35,12 +35,15 @@ export default async function handler(req, res) {
 
     // Build multipart form data manually for OpenAI Whisper API
     const boundary = '----WhisperBoundary' + Date.now();
-    const filename = `chunk_${chunkIndexHeader}.webm`;
+    const isOgg = contentType.includes('ogg');
+    const ext = isOgg ? 'ogg' : 'webm';
+    const whisperMime = isOgg ? 'audio/ogg' : 'audio/webm';
+    const filename = `chunk_${chunkIndexHeader}.${ext}`;
 
     const prePart = Buffer.from(
       `--${boundary}\r\n` +
       `Content-Disposition: form-data; name="file"; filename="${filename}"\r\n` +
-      `Content-Type: audio/webm\r\n\r\n`
+      `Content-Type: ${whisperMime}\r\n\r\n`
     );
 
     const modelPart = Buffer.from(
