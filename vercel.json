@@ -1,6 +1,0 @@
-{
-  "functions": {
-    "api/get-transcript.py": { "maxDuration": 30 },
-    "api/transcribe.js": { "maxDuration": 60 }
-  }
-}
