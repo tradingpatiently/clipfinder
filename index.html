@@ -324,7 +324,7 @@ async function processVideo() {
     const fileSizeMB = file.size / (1024 * 1024);
 
     // Chunk the audio file into 4MB pieces to stay under Vercel's request body limit
-    const CHUNK_SIZE = 4 * 1024 * 1024; // 4MB per chunk
+    const CHUNK_SIZE = 1 * 1024 * 1024
     const numChunks = Math.max(1, Math.ceil(file.size / CHUNK_SIZE));
 
     // Estimate duration from file size (64kbps mono mp3 = ~480KB/min)
