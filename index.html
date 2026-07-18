@@ -30,27 +30,13 @@
     .file-size { font-size: 11px; color: #555; margin-top: 2px; }
     .file-remove { background: transparent; border: 1px solid #1e2328; color: #888; border-radius: 4px; padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 11px; cursor: pointer; flex-shrink: 0; }
     .file-remove:hover { border-color: #ff6b6b; color: #ff6b6b; }
-    .input-row { display: flex; gap: 12px; }
-    .url-input { flex: 1; background: #0e1114; border: 1px solid #1e2328; border-radius: 4px; padding: 14px 16px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8e8e8; outline: none; transition: border-color 0.2s; }
-    .url-input:focus { border-color: #00ff87; }
-    .url-input::placeholder { color: #333; }
-    .how-to { background: #0a0d10; border: 1px solid #1a1f24; border-radius: 4px; padding: 14px 16px; margin-bottom: 14px; }
-    .how-to-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 10px; }
-    .how-to ol { padding-left: 16px; }
-    .how-to li { font-size: 12px; color: #555; line-height: 1.9; }
-    .how-to li span { color: #00ff87; }
-    .transcript-box { width: 100%; background: #0e1114; border: 1px solid #1e2328; border-radius: 4px; padding: 14px 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: #e8e8e8; outline: none; transition: border-color 0.2s; resize: vertical; min-height: 180px; line-height: 1.6; }
-    .transcript-box:focus { border-color: #00ff87; }
-    .transcript-box::placeholder { color: #333; }
-    .char-count { font-size: 10px; color: #444; margin-top: 6px; }
-    .char-count.ok { color: #00ff87; }
     .analyze-btn { background: #00ff87; color: #080a0c; border: none; border-radius: 4px; padding: 16px 24px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; width: 100%; margin-top: 8px; transition: opacity 0.2s, transform 0.1s; }
     .analyze-btn:hover:not(:disabled) { opacity: 0.85; }
     .analyze-btn:active:not(:disabled) { transform: scale(0.99); }
     .analyze-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     .loading-state { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 50px 0; margin-top: 24px; }
     .loading-bar { width: 240px; height: 4px; background: #1a1f24; border-radius: 2px; overflow: hidden; position: relative; }
-    .loading-bar-fill { height: 100%; background: #00ff87; border-radius: 2px; transition: width 0.4s ease; min-width: 0; }
+    .loading-bar-fill { height: 100%; background: #00ff87; border-radius: 2px; transition: width 0.4s ease; }
     .loading-bar-fill.indeterminate { width: 40% !important; animation: slide 1.4s ease-in-out infinite; position: absolute; }
     @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(400%); } }
     .loading-label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; }
@@ -77,8 +63,7 @@
     .clip-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
     .clip-timestamp { display: flex; align-items: center; gap: 8px; font-size: 11px; }
     .ts-label { color: #444; letter-spacing: 0.12em; text-transform: uppercase; }
-    .ts-value { font-size: 14px; font-weight: 500; text-decoration: none; }
-    .ts-value:hover { text-decoration: underline; }
+    .ts-value { font-size: 14px; font-weight: 500; }
     .ts-sep { color: #333; }
     .copy-btn { background: transparent; border: 1px solid; border-radius: 3px; padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s; text-transform: uppercase; }
     .copy-btn:hover { opacity: 0.7; }
@@ -97,29 +82,27 @@
     <p class="header-sub">Extract audio from your VOD using the script, drop the MP3 here, and AI finds your best viral moments automatically.</p>
   </div>
 
-
-  <!-- VIDEO TAB -->
-
-    <div class="section">
-      <div class="field-label">Extracted Audio File (MP3)</div>
-      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-        <div class="dropzone-icon">🎵</div>
-        <div class="dropzone-text">Drop your extracted MP3 file here, or click to browse</div>
-        <div class="dropzone-sub">Use the "Extract Audio" script first to get the MP3 from your .mov</div>
-      </div>
-      <input type="file" id="fileInput" class="file-input" accept="audio/*" onchange="handleFile(event)" />
-      <div class="file-selected hidden" id="fileSelected">
-        <div class="file-info">
-          <div class="file-icon">🎬</div>
-          <div>
-            <div class="file-name" id="fileName"></div>
-            <div class="file-size" id="fileSize"></div>
-          </div>
-        </div>
-        <button class="file-remove" onclick="removeFile()">Remove</button>
-      </div>
+  <div class="section">
+    <div class="field-label">Extracted Audio File (MP3)</div>
+    <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+      <div class="dropzone-icon">🎵</div>
+      <div class="dropzone-text">Drop your extracted MP3 file here, or click to browse</div>
+      <div class="dropzone-sub">Use the "Extract Audio" script first to get the MP3 from your .mov</div>
     </div>
-    <button class="analyze-btn" id="videoBtn" onclick="processVideo()" disabled>TRANSCRIBE + FIND CLIPS</button>
+    <input type="file" id="fileInput" class="file-input" accept="audio/mpeg,audio/mp3,.mp3" onchange="handleFile(event)" />
+    <div class="file-selected hidden" id="fileSelected">
+      <div class="file-info">
+        <div class="file-icon">🎵</div>
+        <div>
+          <div class="file-name" id="fileName"></div>
+          <div class="file-size" id="fileSize"></div>
+        </div>
+      </div>
+      <button class="file-remove" onclick="removeFile()">Remove</button>
+    </div>
+  </div>
+
+  <button class="analyze-btn" id="processBtn" onclick="processFile()" disabled>TRANSCRIBE + FIND CLIPS</button>
 
   <div class="loading-state hidden" id="loadingState">
     <div class="loading-bar"><div class="loading-bar-fill indeterminate" id="barFill"></div></div>
@@ -151,14 +134,14 @@ const TYPE_META = {
   prop_firm:  { label: 'Prop Firm',        color: '#ffd700', icon: '💰' },
 };
 
-let currentClips = [], currentTitle = '', currentVideoUrl = '';
+let currentClips = [], currentTitle = '';
 let selectedFile = null;
 
-// ---- FILE HANDLING ----
+// ---- DROPZONE ----
 const dz = document.getElementById('dropzone');
-['dragover','dragenter'].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.add('dragover'); }));
-['dragleave','drop'].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.remove('dragover'); }));
-dz.addEventListener('drop', ev => { ev.preventDefault(); const f = ev.dataTransfer.files[0]; if (f) selectFile(f); });
+['dragover','dragenter'].forEach(evt => dz.addEventListener(evt, e => { e.preventDefault(); dz.classList.add('dragover'); }));
+['dragleave','drop'].forEach(evt => dz.addEventListener(evt, e => { e.preventDefault(); dz.classList.remove('dragover'); }));
+dz.addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) selectFile(f); });
 
 function handleFile(e) { const f = e.target.files[0]; if (f) selectFile(f); }
 
@@ -168,7 +151,7 @@ function selectFile(f) {
   document.getElementById('fileSize').textContent = formatBytes(f.size);
   document.getElementById('fileSelected').classList.remove('hidden');
   document.getElementById('dropzone').classList.add('hidden');
-  document.getElementById('videoBtn').disabled = false;
+  document.getElementById('processBtn').disabled = false;
 }
 
 function removeFile() {
@@ -176,218 +159,120 @@ function removeFile() {
   document.getElementById('fileInput').value = '';
   document.getElementById('fileSelected').classList.add('hidden');
   document.getElementById('dropzone').classList.remove('hidden');
-  document.getElementById('videoBtn').disabled = true;
+  document.getElementById('processBtn').disabled = true;
 }
-
-function formatBytes(b) {
-  if (b < 1048576) return (b/1024).toFixed(0)+' KB';
-  if (b < 1073741824) return (b/1048576).toFixed(1)+' MB';
-  return (b/1073741824).toFixed(2)+' GB';
-}
-
 
 // ---- UTILS ----
+function formatBytes(b) {
+  if (b < 1048576) return (b / 1024).toFixed(0) + ' KB';
+  if (b < 1073741824) return (b / 1048576).toFixed(1) + ' MB';
+  return (b / 1073741824).toFixed(2) + ' GB';
+}
+
 function formatTime(s) {
-  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = Math.floor(s%60);
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
   if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
   return `${m}:${String(sec).padStart(2,'0')}`;
 }
-function showError(msg) { const e = document.getElementById('errorBox'); e.textContent = '⚠ '+msg; e.classList.remove('hidden'); }
+
+function showError(msg) { const e = document.getElementById('errorBox'); e.textContent = '⚠ ' + msg; e.classList.remove('hidden'); }
 function hideError() { document.getElementById('errorBox').classList.add('hidden'); }
 
 function setLoading(on, label, step, pct) {
   document.getElementById('loadingState').classList.toggle('hidden', !on);
   if (label !== undefined) document.getElementById('loadingLabel').textContent = label;
   if (step !== undefined) document.getElementById('loadingStep').textContent = step;
-  const barFill = document.getElementById('barFill');
+  const fill = document.getElementById('barFill');
   const pctEl = document.getElementById('loadingPct');
   if (pct !== undefined && pct !== null) {
-    barFill.classList.remove('indeterminate');
-    barFill.style.width = Math.round(pct) + '%';
+    fill.classList.remove('indeterminate');
+    fill.style.width = Math.round(pct) + '%';
     pctEl.textContent = Math.round(pct) + '%';
   } else {
-    barFill.classList.add('indeterminate');
-    barFill.style.width = '';
+    fill.classList.add('indeterminate');
+    fill.style.width = '';
     pctEl.textContent = '';
   }
 }
 
-// ---- VIDEO PROCESSING ----
-// Decodes video audio using Web Audio API's OfflineAudioContext (faster than real-time),
-// then encodes to webm/opus via MediaRecorder on a small buffer. Avoids ffmpeg.wasm entirely.
-async function extractAudioBlob(file, onProgress) {
-  onProgress && onProgress(5);
+// ---- MAIN PROCESSING ----
+async function processFile() {
+  if (!selectedFile) return;
+  hideError();
+  document.getElementById('results').classList.add('hidden');
+  document.getElementById('processBtn').disabled = true;
 
-  // Read file as ArrayBuffer
-  const arrayBuffer = await file.arrayBuffer();
-  onProgress && onProgress(15);
-
-  // Decode audio using browser's native codec support
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  let audioBuffer;
   try {
-    audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-  } catch (e) {
-    // Some browsers can't decode .mov directly via decodeAudioData
-    // Fall back to MediaRecorder/playback approach
-    audioCtx.close();
-    throw new Error('Browser could not decode this video format directly. Try converting to MP4 first, or use the YouTube URL tab once captions are ready.');
+    const fileSizeMB = selectedFile.size / (1024 * 1024);
+
+    // Warn if file is over 24MB — Whisper's hard limit is 25MB
+    if (fileSizeMB > 24) {
+      throw new Error(`File is ${fileSizeMB.toFixed(1)}MB — Whisper's limit is 25MB. Re-run the Extract Audio script (it has been updated to produce smaller files). If you already used the old script, drag the .mov onto the new Extract Audio.bat to get a smaller MP3.`);
+    }
+
+    setLoading(true, 'Transcribing...', `Uploading ${fileSizeMB.toFixed(1)}MB to Whisper`, 20);
+
+    // Send the whole file as one request — no chunking needed since the bat
+    // script now outputs at 16kbps which keeps even a 3hr stream under 22MB
+    const result = await transcribeChunk(selectedFile, 0, 0);
+    const allSegments = result.segments || [];
+
+    if (!allSegments.length) throw new Error('No speech detected. Make sure you used the Extract Audio script on a stream with clear mic audio.');
+
+    setLoading(true, 'Finding viral moments...', 'Applying Hook → Retain → Reward framework', 90);
+    const transcript = allSegments.map(s => `[${formatTime(s.start)}] ${s.text.trim()}`).join('\n');
+    await runClipAnalysis(transcript);
+
+  } catch (err) {
+    showError(err.message || 'Something went wrong.');
+  } finally {
+    setLoading(false);
+    document.getElementById('processBtn').disabled = false;
   }
-  audioCtx.close();
-  onProgress && onProgress(50);
-
-  // Re-encode to compressed webm/opus using OfflineAudioContext at lower sample rate
-  const SAMPLE_RATE = 16000; // Whisper only needs 16kHz
-  const offlineCtx = new OfflineAudioContext(1, Math.ceil(audioBuffer.duration * SAMPLE_RATE), SAMPLE_RATE);
-  const source = offlineCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(offlineCtx.destination);
-  source.start(0);
-  const renderedBuffer = await offlineCtx.startRendering();
-  onProgress && onProgress(70);
-
-  // Convert rendered buffer to a Blob via MediaRecorder
-  const streamDest = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SAMPLE_RATE });
-  const dest = streamDest.createMediaStreamDestination();
-  const bufSource = streamDest.createBufferSource();
-  bufSource.buffer = renderedBuffer;
-  bufSource.connect(dest);
-
-  const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/ogg'].find(m => MediaRecorder.isTypeSupported(m)) || '';
-  const recorder = new MediaRecorder(dest.stream, mimeType ? { mimeType, audioBitsPerSecond: 32000 } : { audioBitsPerSecond: 32000 });
-  const chunks = [];
-  recorder.ondataavailable = e => { if (e.data?.size > 0) chunks.push(e.data); };
-
-  const blobPromise = new Promise((resolve, reject) => {
-    recorder.onstop = () => {
-      streamDest.close();
-      resolve(new Blob(chunks, { type: mimeType || 'audio/webm' }));
-    };
-    recorder.onerror = reject;
-  });
-
-  recorder.start();
-  bufSource.start(0);
-  bufSource.onended = () => recorder.stop();
-
-  const blob = await blobPromise;
-  onProgress && onProgress(85);
-  return { blob, duration: audioBuffer.duration };
-}
-
-// Splits a blob into N equal byte chunks (approximate, Whisper handles boundaries fine for speech)
-function chunkBlob(blob, duration, chunkSeconds) {
-  const numChunks = Math.max(1, Math.ceil(duration / chunkSeconds));
-  const chunkBytes = Math.ceil(blob.size / numChunks);
-  const chunks = [];
-  for (let i = 0; i < numChunks; i++) {
-    const start = i * chunkBytes;
-    chunks.push({
-      blob: blob.slice(start, Math.min(blob.size, start + chunkBytes), blob.type),
-      offsetSeconds: i * (duration / numChunks),
-      index: i,
-    });
-  }
-  return chunks;
 }
 
 async function transcribeChunk(blob, index, offsetSeconds) {
-  // Force audio/mpeg for MP3 files since slice() may lose the type
-  const mimeType = blob.type || 'audio/mpeg';
   const res = await fetch('/api/transcribe', {
     method: 'POST',
     headers: {
-      'Content-Type': mimeType,
+      'Content-Type': 'audio/mpeg',
       'X-Chunk-Index': String(index),
       'X-Chunk-Offset-Seconds': String(offsetSeconds),
     },
     body: blob,
   });
-  // Always parse as text first to avoid JSON parse errors on non-JSON responses
   const text = await res.text();
   let data;
-  try { data = JSON.parse(text); } catch {
-    throw new Error(`Server error on chunk ${index + 1}: ${text.slice(0, 120)}`);
-  }
+  try { data = JSON.parse(text); }
+  catch { throw new Error(`Server error on chunk ${index + 1}: ${text.slice(0, 200)}`); }
   if (!res.ok) throw new Error(data.error || `Transcription failed on chunk ${index + 1}`);
   return data;
 }
 
-async function processVideo() {
-  if (!selectedFile) return;
-  hideError();
-  document.getElementById('results').classList.add('hidden');
-  document.getElementById('videoBtn').disabled = true;
-
-  try {
-    const file = selectedFile;
-    const fileSizeMB = file.size / (1024 * 1024);
-
-    // Chunk the audio file into 4MB pieces to stay under Vercel's request body limit
-    const CHUNK_SIZE = 1 * 1024 * 1024
-    const numChunks = Math.max(1, Math.ceil(file.size / CHUNK_SIZE));
-
-    // Estimate duration from file size (64kbps mono mp3 = ~480KB/min)
-    const estimatedDuration = (file.size / 1024 / 60) / 0.064; // rough seconds
-    const chunkDuration = estimatedDuration / numChunks;
-
-    let allSegments = [];
-
-    for (let i = 0; i < numChunks; i++) {
-      const pct = Math.round((i / numChunks) * 90);
-      setLoading(true, 'Transcribing...', `Chunk ${i + 1} of ${numChunks} — hang tight`, pct);
-
-      const start = i * CHUNK_SIZE;
-      const end = Math.min(file.size, start + CHUNK_SIZE);
-      const chunk = file.slice(start, end, file.type || 'audio/mpeg');
-      const offsetSeconds = i * chunkDuration;
-
-      const result = await transcribeChunk(chunk, i, offsetSeconds);
-      allSegments = allSegments.concat(result.segments || []);
-    }
-
-    if (!allSegments.length) throw new Error('No speech detected in the audio file.');
-
-    setLoading(true, 'Finding viral moments...', 'Applying Hook → Retain → Reward framework', 96);
-    const transcript = allSegments.map(s => `[${formatTime(s.start)}] ${s.text.trim()}`).join('\n');
-    currentVideoUrl = '';
-    await runClipAnalysis(transcript);
-
-  } catch (err) {
-    showError(err.message || 'Something went wrong. Make sure you uploaded an MP3 file from the Extract Audio script.');
-  } finally {
-    setLoading(false);
-    document.getElementById('videoBtn').disabled = false;
-  }
-}
-
-
-// ---- SHARED ANALYSIS ----
 async function runClipAnalysis(transcript) {
   const res = await fetch('/api/analyze', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ transcript }),
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); }
+  catch { throw new Error('Clip analysis failed: ' + text.slice(0, 200)); }
+  if (!res.ok) throw new Error(data.error || 'Clip analysis failed.');
   currentClips = data.clips || [];
   currentTitle = data.stream_title || '';
   renderResults();
 }
 
+// ---- RENDER ----
 function renderResults() {
-  if (!currentClips.length) { showError('No clips identified — try a longer transcript.'); return; }
+  if (!currentClips.length) { showError('No clips identified — transcript may be too short.'); return; }
   document.getElementById('streamTitle').textContent = currentTitle;
   const grid = document.getElementById('clipsGrid');
   grid.innerHTML = '';
   currentClips.forEach((clip, i) => {
     const meta = TYPE_META[clip.type] || TYPE_META.entry_exit;
-    const hasLink = !!currentVideoUrl;
-    const link = hasLink ? toYTLink(currentVideoUrl, clip.start_seconds) : null;
-    const startHtml = hasLink
-      ? `<a href="${link}" target="_blank" class="ts-value" style="color:${meta.color}">${formatTime(clip.start_seconds)}</a>`
-      : `<span class="ts-value" style="color:${meta.color}">${formatTime(clip.start_seconds)}</span>`;
     const card = document.createElement('div');
     card.className = 'clip-card';
     card.style.setProperty('--accent', meta.color);
@@ -401,7 +286,8 @@ function renderResults() {
       <div class="clip-why">${clip.why_viral}</div>
       <div class="clip-footer">
         <div class="clip-timestamp">
-          <span class="ts-label">START</span>${startHtml}
+          <span class="ts-label">START</span>
+          <span class="ts-value" style="color:${meta.color}">${formatTime(clip.start_seconds)}</span>
           ${clip.end_seconds ? `<span class="ts-sep">→</span><span class="ts-label">END</span><span class="ts-value">${formatTime(clip.end_seconds)}</span>` : ''}
         </div>
         <button class="copy-btn" style="border-color:${meta.color};color:${meta.color}" onclick="copyTs(this,'${formatTime(clip.start_seconds)}')">Copy Timestamp</button>
@@ -435,7 +321,7 @@ function exportSheet() {
     ...currentClips.map((c, i) => [
       `CLIP #${String(i+1).padStart(2,'0')} — ${c.title}`,
       `Type: ${c.type.replace('_',' ').toUpperCase()} | Score: ${c.viral_score}/10`,
-      `Timestamp: ${formatTime(c.start_seconds)} → ${formatTime(c.end_seconds || c.start_seconds+120)}`,
+      `Timestamp: ${formatTime(c.start_seconds)} → ${formatTime(c.end_seconds || c.start_seconds + 120)}`,
       `Why: ${c.why_viral}`,
       `Hook: "${c.hook_suggestion}"`,
       `Payoff: ${c.payoff}`,
@@ -444,7 +330,7 @@ function exportSheet() {
     ].join('\n')),
   ];
   navigator.clipboard.writeText(lines.join('\n')).then(() => {
-    const btn = document.getElementById('exportBtn') || document.querySelector('.export-btn');
+    const btn = document.querySelector('.export-btn');
     const orig = btn.textContent;
     btn.textContent = '✓ Copied to Clipboard';
     setTimeout(() => btn.textContent = orig, 2500);
